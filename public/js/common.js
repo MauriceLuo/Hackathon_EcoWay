@@ -5,6 +5,12 @@ const translations = {
         virtualHome: '虚拟家园',
         carbonCredits: '碳积分',
         settings: '设置',
+        family: '家庭社交',
+        familyMembers: '家庭成员',
+        friends: '好友列表',
+        familyRanking: '家庭排名',
+        inviteFriend: '邀请好友',
+        addFamily: '添加家人',
         // 控制面板相关
         todayPower: '今日用电量',
         monthlyWater: '本月用水量',

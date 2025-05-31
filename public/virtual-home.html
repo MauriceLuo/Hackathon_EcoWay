@@ -21,20 +21,6 @@
             background: #f0f2f5;
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 250px;
-            background: white;
-            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-            z-index: 1000;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-        }
-
         .main-content {
             margin-left: 250px;
             padding: 2rem;
@@ -173,15 +159,28 @@
 
         .nav-tabs {
             border: none;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
         .nav-tabs .nav-link {
             border: none;
             color: #666;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             border-radius: 4px;
             margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs .nav-link i {
+            font-size: 1.25rem;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(24, 144, 255, 0.1);
+            color: var(--primary-color);
         }
 
         .nav-tabs .nav-link.active {
@@ -197,25 +196,68 @@
             display: block;
         }
 
-        .language-selector {
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid #f0f0f0;
+        .family-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .language-selector select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
-            background: white;
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .member-item:last-child {
+            border-bottom: none;
+        }
+
+        .member-info {
+            margin-left: 1rem;
+            flex-grow: 1;
+        }
+
+        .eco-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
             font-size: 0.875rem;
         }
 
-        .language-selector select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        .invite-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .ranking-number {
+            width: 24px;
+            height: 24px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .top-3 {
+            background: var(--warning-color);
         }
     </style>
 </head>
@@ -241,125 +283,204 @@
     </div>
 
     <div class="main-content">
-        <div class="weather-alert" id="typhoonAlert">
-            <div class="wind-animation"></div>
-            <h3>台风警报：天鸽</h3>
-            <p class="mb-0">当前风力：10级 | 降雨量：120mm/h</p>
-            <div class="emergency-tips">
-                <h6><i class='bx bx-info-circle'></i> 紧急提示</h6>
-                <ul class="mb-0">
-                    <li>关闭所有窗户，确保门窗密封</li>
-                    <li>检查排水系统，预防积水</li>
-                    <li>准备应急照明设备</li>
-                </ul>
-            </div>
-        </div>
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="switchTab('virtualHome')">
+                    <i class='bx bx-home'></i> 虚拟家园
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="switchTab('family')">
+                    <i class='bx bx-group'></i> 家庭社交
+                </a>
+            </li>
+        </ul>
 
-        <div class="virtual-building" id="virtualBuilding">
-            <div class="level-indicator">
-                等级: <span id="buildingLevel">1</span>
+        <div id="virtualHomeContent">
+            <div class="weather-alert" id="typhoonAlert">
+                <div class="wind-animation"></div>
+                <h3>台风警报：天鸽</h3>
+                <p class="mb-0">当前风力：10级 | 降雨量：120mm/h</p>
+                <div class="emergency-tips">
+                    <h6><i class='bx bx-info-circle'></i> 紧急提示</h6>
+                    <ul class="mb-0">
+                        <li>关闭所有窗户，确保门窗密封</li>
+                        <li>检查排水系统，预防积水</li>
+                        <li>准备应急照明设备</li>
+                    </ul>
+                </div>
             </div>
-            <div class="pollution-indicator" id="pollutionLayer"></div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="mission-card" id="typhoonMission" style="display: none;">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0">台风期间节能挑战</h5>
-                        <div class="timer" id="challengeTimer">02:00:00</div>
-                    </div>
-                    <div class="progress mb-3">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 60%" id="challengeProgress"></div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span>当前进度：<span id="progressValue">60</span>%</span>
-                        <span class="reward-badge">奖励：500碳积分</span>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <div class="mission-card">
-                                <h6><i class='bx bx-bulb'></i> 应急照明任务</h6>
-                                <p>使用LED应急照明，减少用电量</p>
-                                <button class="btn btn-primary btn-sm" onclick="completeMission('lighting')">完成任务</button>
+            <div class="virtual-building" id="virtualBuilding">
+                <div class="level-indicator">
+                    等级: <span id="buildingLevel">1</span>
+                </div>
+                <div class="pollution-indicator" id="pollutionLayer"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">建筑升级</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 25%" id="expProgress"></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>经验值: <span id="expValue">250</span>/1000</span>
+                                <button class="btn btn-primary" onclick="upgradeBuilding()">升级建筑</button>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6">
-                            <div class="mission-card">
-                                <h6><i class='bx bx-water'></i> 雨水回收任务</h6>
-                                <p>收集雨水用于日常用水</p>
-                                <button class="btn btn-primary btn-sm" onclick="completeMission('water')">完成任务</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">建筑升级</h5>
-                        <div class="progress mb-3">
-                            <div class="progress-bar" role="progressbar" style="width: 25%" id="expProgress"></div>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>经验值: <span id="expValue">250</span>/1000</span>
-                            <button class="btn btn-primary" onclick="upgradeBuilding()">升级建筑</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="decoration-item" onclick="addDecoration('solarPanel')">
-                            <div class="d-flex align-items-center">
-                                <i class='bx bx-sun text-warning' style="font-size: 2rem;"></i>
-                                <div class="ms-3">
-                                    <h6 class="mb-1">太阳能板</h6>
-                                    <small class="text-muted">减少20%用电量</small>
+                            <div class="decoration-item" onclick="addDecoration('solarPanel')">
+                                <div class="d-flex align-items-center">
+                                    <i class='bx bx-sun text-warning' style="font-size: 2rem;"></i>
+                                    <div class="ms-3">
+                                        <h6 class="mb-1">太阳能板</h6>
+                                        <small class="text-muted">减少20%用电量</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="decoration-item" onclick="addDecoration('rainCollector')">
-                            <div class="d-flex align-items-center">
-                                <i class='bx bx-cloud-rain text-primary' style="font-size: 2rem;"></i>
-                                <div class="ms-3">
-                                    <h6 class="mb-1">雨水收集器</h6>
-                                    <small class="text-muted">减少15%用水量</small>
+                        <div class="col-md-6">
+                            <div class="decoration-item" onclick="addDecoration('rainCollector')">
+                                <div class="d-flex align-items-center">
+                                    <i class='bx bx-cloud-rain text-primary' style="font-size: 2rem;"></i>
+                                    <div class="ms-3">
+                                        <h6 class="mb-1">雨水收集器</h6>
+                                        <small class="text-muted">减少15%用水量</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-4">
-                <div class="achievement-card">
-                    <h6>建筑属性</h6>
-                    <div class="mb-3">
-                        <label>能源效率</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" id="efficiencyBar"></div>
+                <div class="col-md-4">
+                    <div class="achievement-card">
+                        <h6>建筑属性</h6>
+                        <div class="mb-3">
+                            <label>能源效率</label>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 70%" id="efficiencyBar"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>环保指数</label>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 60%" id="ecoBar"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label>环保指数</label>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%" id="ecoBar"></div>
+
+                    <div class="achievement-card">
+                        <h6>家庭排行榜</h6>
+                        <div class="member-item">
+                            <div class="ranking-number top-3">1</div>
+                            <div class="member-info">
+                                <h6 class="mb-1">王家</h6>
+                                <small class="text-muted">月节能：320度</small>
+                            </div>
+                        </div>
+                        <div class="member-item">
+                            <div class="ranking-number top-3">2</div>
+                            <div class="member-info">
+                                <h6 class="mb-1">张家</h6>
+                                <small class="text-muted">月节能：280度</small>
+                            </div>
+                        </div>
+                        <div class="member-item">
+                            <div class="ranking-number top-3">3</div>
+                            <div class="member-info">
+                                <h6 class="mb-1">李家</h6>
+                                <small class="text-muted">月节能：250度</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="familyContent" style="display: none;">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="family-card">
+                        <h5 class="mb-4">我的家庭成员</h5>
+                        <div class="member-item">
+                            <img src="avatar1.jpg" alt="用户头像" class="member-avatar">
+                            <div class="member-info">
+                                <h6 class="mb-1">张三（我）</h6>
+                                <small class="text-muted">家庭管理员</small>
+                            </div>
+                            <span class="eco-badge">节能达人</span>
+                        </div>
+                        <div class="member-item">
+                            <img src="avatar2.jpg" alt="用户头像" class="member-avatar">
+                            <div class="member-info">
+                                <h6 class="mb-1">李四</h6>
+                                <small class="text-muted">家庭成员</small>
+                            </div>
+                            <span class="eco-badge">环保先锋</span>
+                        </div>
+                        <button class="btn btn-primary mt-3">
+                            <i class='bx bx-plus'></i> 添加家人
+                        </button>
+                    </div>
+
+                    <div class="family-card">
+                        <h5 class="mb-4">好友列表</h5>
+                        <div class="member-item">
+                            <img src="avatar3.jpg" alt="用户头像" class="member-avatar">
+                            <div class="member-info">
+                                <h6 class="mb-1">王家</h6>
+                                <small class="text-muted">4口之家</small>
+                            </div>
+                            <span class="eco-badge">碳中和达成</span>
+                        </div>
+                        <div class="member-item">
+                            <img src="avatar4.jpg" alt="用户头像" class="member-avatar">
+                            <div class="member-info">
+                                <h6 class="mb-1">李家</h6>
+                                <small class="text-muted">3口之家</small>
+                            </div>
+                            <span class="eco-badge">节能新秀</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="achievement-card">
-                    <h6>成就系统</h6>
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            节能先锋
-                            <span class="badge bg-primary rounded-pill">3/5</span>
+                <div class="col-md-4">
+                    <div class="invite-card">
+                        <i class='bx bx-envelope' style="font-size: 3rem;"></i>
+                        <h5 class="mt-3">邀请好友</h5>
+                        <p>一起参与节能减排，创造更美好的家园</p>
+                        <button class="btn btn-light">发送邀请</button>
+                    </div>
+
+                    <div class="family-card mt-4">
+                        <h5 class="mb-4">家庭排行榜</h5>
+                        <div class="member-item">
+                            <div class="ranking-number top-3">1</div>
+                            <div class="member-info">
+                                <h6 class="mb-1">王家</h6>
+                                <small class="text-muted">月节能：320度</small>
+                            </div>
                         </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            环保达人
-                            <span class="badge bg-primary rounded-pill">2/5</span>
+                        <div class="member-item">
+                            <div class="ranking-number top-3">2</div>
+                            <div class="member-info">
+                                <h6 class="mb-1">张家</h6>
+                                <small class="text-muted">月节能：280度</small>
+                            </div>
+                        </div>
+                        <div class="member-item">
+                            <div class="ranking-number top-3">3</div>
+                            <div class="member-info">
+                                <h6 class="mb-1">李家</h6>
+                                <small class="text-muted">月节能：250度</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -499,6 +620,24 @@
 
         // 初始化效果
         updateBuildingEffects();
+
+        function switchTab(tab) {
+            const virtualHomeContent = document.getElementById('virtualHomeContent');
+            const familyContent = document.getElementById('familyContent');
+            const tabs = document.querySelectorAll('.nav-tabs .nav-link');
+
+            if (tab === 'virtualHome') {
+                virtualHomeContent.style.display = 'block';
+                familyContent.style.display = 'none';
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                virtualHomeContent.style.display = 'none';
+                familyContent.style.display = 'block';
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
     </script>
 </body>
 </html> 
