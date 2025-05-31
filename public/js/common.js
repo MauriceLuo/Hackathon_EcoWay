@@ -89,7 +89,77 @@ const translations = {
         virtualHome: 'Virtual Home',
         carbonCredits: 'Carbon Credits',
         settings: 'Settings',
-        // ... 其他翻译
+        family: 'Family & Social',
+        familyMembers: 'Family Members',
+        friends: 'Friend List',
+        familyRanking: 'Family Ranking',
+        inviteFriend: 'Invite Friend',
+        addFamily: 'Add Family Member',
+        // Dashboard related
+        todayPower: "Today's Electricity Usage",
+        monthlyWater: "This Month's Water Usage",
+        carbonBalance: 'Carbon Credit Balance',
+        energyTrend: 'Energy Usage Trends',
+        livingRoomAC: 'Living Room AC',
+        waterHeater: 'Water Heater',
+        tempSetting: 'Temperature Setting',
+        energyTask: 'Energy Saving Tasks',
+        acChallenge: 'AC 26°C Challenge',
+        realTimeAdvice: 'Real-time Energy Suggestions',
+        weather: 'Weather Forecast',
+        powerSavingTip: 'Suggest increasing AC temperature by 2°C to save 15% electricity',
+        heaterTip: 'Water heater detected on standby, suggest turning off',
+        weatherDesc: 'Cloudy with chance of rain, suggest enabling energy saving mode',
+        // Virtual Home related
+        level: 'Level',
+        buildingUpgrade: 'Building Upgrade',
+        experience: 'Experience',
+        solarPanel: 'Solar Panel',
+        solarPanelDesc: 'Reduces electricity usage by 20%',
+        rainCollector: 'Rain Collector',
+        rainCollectorDesc: 'Reduces water usage by 15%',
+        buildingProps: 'Building Attributes',
+        energyEfficiency: 'Energy Efficiency',
+        ecoIndex: 'Eco Index',
+        achievements: 'Achievement System',
+        energyPioneer: 'Energy Pioneer',
+        ecoMaster: 'Eco Master',
+        // Typhoon Mission related
+        typhoonMission: 'Typhoon Mission',
+        typhoonAlert: 'Typhoon Alert: Hato',
+        windSpeed: 'Current Wind Force',
+        rainfall: 'Rainfall',
+        emergencyTips: 'Emergency Tips',
+        tip1: 'Close all windows and ensure they are sealed.',
+        tip2: 'Check drainage systems to prevent flooding.',
+        tip3: 'Prepare emergency lighting equipment.',
+        challenge: 'Energy Saving Challenge During Typhoon',
+        progress: 'Current Progress',
+        reward: 'Reward',
+        carbonPoints: 'Carbon Credits',
+        lightingTask: 'Emergency Lighting Task',
+        lightingDesc: 'Use LED emergency lighting to reduce electricity consumption.',
+        waterTask: 'Rainwater Harvesting Task',
+        waterDesc: 'Collect rainwater for daily use.',
+        complete: 'Complete Mission',
+        energyMonitor: 'Real-time Energy Monitoring',
+        powerUsage: 'Power Usage',
+        waterUsage: 'Water Usage',
+        powerReduction: '70% less than usual',
+        waterReduction: '55% less than usual',
+        emergency: 'Emergency Contact',
+        emergencyHotline: 'Emergency Hotline',
+        propertyMgmt: 'Property Management',
+        maintenance: 'Maintenance Service',
+        // Carbon Credits related
+        carbonHistory: 'Credit History',
+        carbonExchange: 'Redeem Points',
+        carbonRanking: 'Energy Saving Ranking',
+        // Settings related
+        accountSettings: 'Account Settings',
+        notifications: 'Notification Settings',
+        deviceManagement: 'Device Management',
+        about: 'About Us'
     },
     'ja': {
         dashboard: 'ダッシュボード',
@@ -116,10 +186,10 @@ const translations = {
 
 // 导航配置
 const navigation = [
-    { id: 'dashboard', icon: 'bxs-dashboard', href: 'dashboard.html' },
-    { id: 'virtualHome', icon: 'bx-home', href: 'virtual-home.html' },
-    { id: 'carbonCredits', icon: 'bx-coin-stack', href: 'carbon-credits.html' },
-    { id: 'settings', icon: 'bx-cog', href: 'settings.html' }
+    { id: 'dashboard', icon: 'bxs-dashboard', href: 'dashboard.html', textKey: 'dashboard' },
+    { id: 'virtualHome', icon: 'bx-home', href: 'virtual-home.html', textKey: 'virtualHome' },
+    { id: 'carbonCredits', icon: 'bx-coin-stack', href: 'carbon-credits.html', textKey: 'carbonCredits' },
+    { id: 'settings', icon: 'bx-cog', href: 'settings.html', textKey: 'settings' }
 ];
 
 // 更新导航栏
@@ -128,9 +198,14 @@ function updateNavigation(currentLang, currentPage) {
     navContainer.innerHTML = navigation.map(item => `
         <a class="nav-link ${currentPage === item.id ? 'active' : ''}" href="${item.href}">
             <i class='bx ${item.icon}'></i>
-            <span class="nav-text">${translations[currentLang][item.id]}</span>
+            <span class="nav-text">${translations[currentLang][item.textKey]}</span>
         </a>
     `).join('');
+    // Update project name in sidebar
+    const projectNameElement = document.querySelector('.sidebar h4');
+    if (projectNameElement) {
+        projectNameElement.textContent = 'EcoWay';
+    }
 }
 
 // 更新语言选择器
@@ -143,10 +218,17 @@ function updateLanguageSelector(currentLang) {
 
 // 初始化页面
 function initializePage(pageName) {
-    const savedLang = localStorage.getItem('preferred-language') || 'zh-CN';
+    const savedLang = localStorage.getItem('preferred-language') || 'en'; // Default to English
     document.documentElement.lang = savedLang;
     updateNavigation(savedLang, pageName);
     updateLanguageSelector(savedLang);
+    // Update page titles based on the selected language
+    const pageTitleKey = pageName;
+    if (translations[savedLang] && translations[savedLang][pageTitleKey]) {
+        document.title = `EcoWay - ${translations[savedLang][pageTitleKey]}`;
+    } else {
+        document.title = 'EcoWay'; // Default title
+    }
     return savedLang;
 }
 

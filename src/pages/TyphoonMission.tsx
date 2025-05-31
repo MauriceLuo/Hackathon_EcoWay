@@ -39,11 +39,11 @@ const TyphoonMission: React.FC = () => {
   const [missionActive, setMissionActive] = useState(false);
   const [progress, setProgress] = useState(0);
   const [devices, setDevices] = useState<Device[]>([
-    { id: '1', name: '客厅空调', status: 'on', power: 1500 },
-    { id: '2', name: '卧室空调', status: 'on', power: 1200 },
-    { id: '3', name: '热水器', status: 'on', power: 2000 },
-    { id: '4', name: '电视机', status: 'on', power: 200 },
-    { id: '5', name: '洗衣机', status: 'off', power: 500 }
+    { id: '1', name: 'Living Room AC', status: 'on', power: 1500 },
+    { id: '2', name: 'Bedroom AC', status: 'on', power: 1200 },
+    { id: '3', name: 'Water Heater', status: 'on', power: 2000 },
+    { id: '4', name: 'Television', status: 'on', power: 200 },
+    { id: '5', name: 'Washing Machine', status: 'off', power: 500 }
   ]);
 
   const [totalSaved, setTotalSaved] = useState(0);
@@ -94,7 +94,7 @@ const TyphoonMission: React.FC = () => {
         <Row align="middle" style={{ height: '100%', padding: '0 24px' }}>
           <Col span={16}>
             <h1 style={{ color: 'white', margin: 0 }}>
-              8号风球特别任务
+              Signal No. 8 Special Mission
               {missionActive && <WarningOutlined style={{ marginLeft: 8 }} />}
             </h1>
           </Col>
@@ -103,7 +103,7 @@ const TyphoonMission: React.FC = () => {
               type={missionActive ? 'default' : 'primary'}
               onClick={() => setMissionActive(!missionActive)}
             >
-              {missionActive ? '结束任务' : '开始任务'}
+              {missionActive ? 'End Mission' : 'Start Mission'}
             </Button>
           </Col>
         </Row>
@@ -111,8 +111,8 @@ const TyphoonMission: React.FC = () => {
 
       {missionActive && (
         <Alert
-          message="台风警报"
-          description="目前正在进行全港节能行动，请关闭非必要用电设备，共同守护香港电网！"
+          message="Typhoon Warning"
+          description="A territory-wide energy saving operation is underway. Please turn off non-essential electrical appliances to jointly protect Hong Kong's power grid!"
           type="warning"
           showIcon
           style={{ marginBottom: 24 }}
@@ -121,7 +121,7 @@ const TyphoonMission: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={16}>
-          <Card title="设备状态">
+          <Card title="Device Status">
             <List
               dataSource={devices}
               renderItem={device => (
@@ -131,16 +131,16 @@ const TyphoonMission: React.FC = () => {
                       type={device.status === 'on' ? 'primary' : 'default'}
                       onClick={() => handleDeviceToggle(device.id)}
                     >
-                      {device.status === 'on' ? '关闭' : '开启'}
+                      {device.status === 'on' ? 'Turn Off' : 'Turn On'}
                     </Button>
                   ]}
                 >
                   <List.Item.Meta
                     title={device.name}
-                    description={`功率: ${device.power}W`}
+                    description={`Power: ${device.power}W`}
                   />
                   <Tag color={device.status === 'on' ? 'green' : 'red'}>
-                    {device.status === 'on' ? '运行中' : '已关闭'}
+                    {device.status === 'on' ? 'Running' : 'Off'}
                   </Tag>
                 </List.Item>
               )}
@@ -149,25 +149,25 @@ const TyphoonMission: React.FC = () => {
         </Col>
 
         <Col span={8}>
-          <Card title="任务进度">
+          <Card title="Mission Progress">
             <Progress type="circle" percent={progress} />
             <div style={{ marginTop: 16 }}>
-              <p>设备关闭率：{calculateEfficiency()}%</p>
+              <p>Device Off Rate: {calculateEfficiency()}%</p>
               <p>
-                已节省能源：
+                Energy Saved: 
                 <ThunderboltOutlined style={{ color: '#faad14' }} />
-                {(totalSaved / 1000).toFixed(1)}度
+                {(totalSaved / 1000).toFixed(1)} kWh
               </p>
             </div>
           </Card>
 
           {progress === 100 && (
-            <Card title="任务奖励" style={{ marginTop: 16 }}>
-              <p>🏆 获得"抗风勇士"勋章</p>
-              <p>💰 节能奖励：100碳积分</p>
-              <p>🌟 解锁"防风玻璃"装饰</p>
+            <Card title="Mission Rewards" style={{ marginTop: 16 }}>
+              <p>🏆 Obtained "Typhoon Warrior" Medal</p>
+              <p>💰 Energy Saving Reward: 100 Carbon Credits</p>
+              <p>🌟 Unlocked "Windproof Glass" Decoration</p>
               <Button type="primary" block>
-                领取奖励
+                Claim Rewards
               </Button>
             </Card>
           )}

@@ -44,7 +44,7 @@ const VirtualHome: React.FC = () => {
   const [building, setBuilding] = useState<BuildingProps>({
     level: 1,
     energyEfficiency: 70,
-    decorations: ['基础空调', '节能灯']
+    decorations: ['Basic AC', 'Energy-saving Lamp']
   });
 
   const [pollution, setPollution] = useState(0.2);
@@ -56,7 +56,7 @@ const VirtualHome: React.FC = () => {
         level: prev.level + 1,
         energyEfficiency: Math.min(prev.energyEfficiency + 10, 100)
       }));
-      message.success('建筑升级成功！');
+      message.success('Building upgraded successfully!');
     }
   };
 
@@ -66,12 +66,12 @@ const VirtualHome: React.FC = () => {
       decorations: [...prev.decorations, decoration]
     }));
     setPollution(prev => Math.max(prev - 0.05, 0));
-    message.success('装饰安装成功！');
+    message.success('Decoration installed successfully!');
   };
 
   return (
     <HomeContainer>
-      <Card title="我的虚拟家园">
+      <Card title="My Virtual Home">
         <VirtualBuilding pollution={pollution}>
           {building.decorations.map((item, index) => (
             <BuildingElement
@@ -88,7 +88,7 @@ const VirtualHome: React.FC = () => {
 
         <Row gutter={16}>
           <Col span={8}>
-            <Card type="inner" title="建筑等级">
+            <Card type="inner" title="Building Level">
               <Progress type="circle" percent={building.level * 20} />
               <Button
                 type="primary"
@@ -97,13 +97,13 @@ const VirtualHome: React.FC = () => {
                 onClick={handleUpgrade}
                 disabled={building.level >= 5}
               >
-                升级建筑
+                Upgrade Building
               </Button>
             </Card>
           </Col>
 
           <Col span={8}>
-            <Card type="inner" title="能源效率">
+            <Card type="inner" title="Energy Efficiency">
               <Progress
                 type="circle"
                 percent={building.energyEfficiency}
@@ -116,39 +116,39 @@ const VirtualHome: React.FC = () => {
           </Col>
 
           <Col span={8}>
-            <Card type="inner" title="添加节能装饰">
+            <Card type="inner" title="Add Energy-saving Decoration">
               <Select
                 style={{ width: '100%' }}
-                placeholder="选择装饰"
+                placeholder="Select Decoration"
                 onChange={handleAddDecoration}
               >
-                <Option value="雨水收集器">雨水收集器</Option>
-                <Option value="太阳能板">太阳能板</Option>
-                <Option value="智能窗帘">智能窗帘</Option>
-                <Option value="绿植墙">绿植墙</Option>
+                <Option value="Rain Collector">Rain Collector</Option>
+                <Option value="Solar Panel">Solar Panel</Option>
+                <Option value="Smart Curtain">Smart Curtain</Option>
+                <Option value="Green Wall">Green Wall</Option>
               </Select>
             </Card>
           </Col>
         </Row>
 
-        <Card style={{ marginTop: 24 }} title="建筑成就">
+        <Card style={{ marginTop: 24 }} title="Building Achievements">
           <Row gutter={16}>
             <Col span={8}>
-              <Card type="inner" title="节水达人">
+              <Card type="inner" title="Water Saving Expert">
                 <Progress type="circle" percent={75} width={80} />
-                <p>累计节水：230升</p>
+                <p>Total water saved: 230L</p>
               </Card>
             </Col>
             <Col span={8}>
-              <Card type="inner" title="电力优化师">
+              <Card type="inner" title="Electricity Optimizer">
                 <Progress type="circle" percent={60} width={80} />
-                <p>节省电量：45度</p>
+                <p>Electricity saved: 45 kWh</p>
               </Card>
             </Col>
             <Col span={8}>
-              <Card type="inner" title="环保先锋">
+              <Card type="inner" title="Eco Pioneer">
                 <Progress type="circle" percent={90} width={80} />
-                <p>减少碳排放：120kg</p>
+                <p>Carbon emission reduced: 120kg</p>
               </Card>
             </Col>
           </Row>

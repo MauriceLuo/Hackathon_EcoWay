@@ -82,7 +82,7 @@ const Home: React.FC = () => {
     <PageContainer>
       <VictoriaHarbor>
         <h1 style={{ color: 'white', padding: '20px', margin: 0 }}>
-          维港能源监测站
+          Victoria Harbour Energy Monitoring Station
         </h1>
       </VictoriaHarbor>
 
@@ -90,15 +90,15 @@ const Home: React.FC = () => {
         <Col span={8}>
           <EnergyCard>
             <Statistic
-              title="今日用电量"
+              title="Today's Electricity Usage"
               value={energyData.electricity}
               precision={1}
-              suffix="度"
+              suffix="kWh"
               prefix={<ThunderboltOutlined style={{ color: '#faad14' }} />}
             />
             <Progress percent={75} status="active" />
             <ActionButton type="primary" onClick={handleTurnOffStandby}>
-              关闭待机设备
+              Turn Off Standby Devices
             </ActionButton>
           </EnergyCard>
         </Col>
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
         <Col span={8}>
           <EnergyCard>
             <Statistic
-              title="本月用水量"
+              title="This Month's Water Usage"
               value={energyData.water}
               precision={1}
               suffix="m³"
@@ -119,7 +119,7 @@ const Home: React.FC = () => {
         <Col span={8}>
           <EnergyCard>
             <Statistic
-              title="煤气用量"
+              title="Gas Usage"
               value={energyData.gas}
               precision={1}
               suffix="m³"
@@ -130,47 +130,47 @@ const Home: React.FC = () => {
         </Col>
       </Row>
 
-      <Card title="碳积分银行" style={{ marginTop: 24 }}>
+      <Card title="Carbon Credit Bank" style={{ marginTop: 24 }}>
         <Row gutter={16}>
           <Col span={12}>
             <Statistic
-              title="当前积分"
+              title="Current Credits"
               value={energyData.carbonCredits}
               precision={0}
-              suffix="分"
+              suffix="Credits"
             />
           </Col>
           <Col span={12}>
             <Button type="primary" block>
-              兑换奖励
+              Redeem Rewards
             </Button>
           </Col>
         </Row>
       </Card>
 
-      <Card title="节能任务" style={{ marginTop: 24 }}>
+      <Card title="Energy Saving Tasks" style={{ marginTop: 24 }}>
         <Row gutter={16}>
           <Col span={8}>
-            <Card type="inner" title="空调26℃挑战">
+            <Card type="inner" title="AC 26°C Challenge">
               <Progress type="circle" percent={30} width={80} />
               <Button type="link" block>
-                开始挑战
+                Start Challenge
               </Button>
             </Card>
           </Col>
           <Col span={8}>
-            <Card type="inner" title="台风季节能特训">
+            <Card type="inner" title="Typhoon Season Energy Training">
               <Progress type="circle" percent={0} width={80} status="exception" />
               <Button type="link" block disabled>
-                未开放
+                Not Available
               </Button>
             </Card>
           </Col>
           <Col span={8}>
-            <Card type="inner" title="社区节能竞赛">
+            <Card type="inner" title="Community Energy Saving Competition">
               <Progress type="circle" percent={85} width={80} status="success" />
               <Button type="link" block>
-                查看排名
+                View Rankings
               </Button>
             </Card>
           </Col>

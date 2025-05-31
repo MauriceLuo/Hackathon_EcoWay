@@ -35,16 +35,16 @@ const App: React.FC = () => {
     <Router>
       <StyledLayout>
         <Sider breakpoint="lg" collapsedWidth="0">
-          <Logo>EcoHero</Logo>
+          <Logo>EcoWay</Logo>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1" icon={<HomeOutlined />}>
-              <Link to="/">能源监测</Link>
+              <Link to="/">Energy Monitoring</Link>
             </Menu.Item>
             <Menu.Item key="2" icon={<BuildOutlined />}>
-              <Link to="/virtual-home">虚拟家园</Link>
+              <Link to="/virtual-home">Virtual Home</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<ThunderboltOutlined />}>
-              <Link to="/typhoon-mission">台风任务</Link>
+              <Link to="/typhoon-mission">Typhoon Mission</Link>
             </Menu.Item>
           </Menu>
         </Sider>
