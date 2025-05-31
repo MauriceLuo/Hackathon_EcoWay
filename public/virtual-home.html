@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoHero - 虚拟家园</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1890ff;
+            --secondary-color: #096dd9;
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --danger-color: #ff4d4f;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .virtual-building {
+            height: 400px;
+            background: linear-gradient(180deg, #87CEEB 0%, #1890ff 100%);
+            border-radius: 8px;
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .building-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .building-element:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .decoration-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .decoration-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .achievement-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .level-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .pollution-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .weather-alert {
+            background: linear-gradient(135deg, #ff4d4f 0%, #cf1322 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .weather-alert.active {
+            display: block;
+        }
+
+        .weather-alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('wave-pattern.png');
+            opacity: 0.1;
+            animation: wave 20s linear infinite;
+        }
+
+        .mission-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .mission-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .emergency-tips {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .wind-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('wind-pattern.png');
+            opacity: 0.1;
+            animation: wind 2s linear infinite;
+        }
+
+        @keyframes wind {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+
+        .nav-tabs {
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #666;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        #typhoonContent {
+            display: none;
+        }
+
+        #typhoonContent.active {
+            display: block;
+        }
+
+        .language-selector {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .language-selector select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            background: white;
+            font-size: 0.875rem;
+        }
+
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="d-flex align-items-center mb-4">
+            <img src="logo.png" alt="EcoHero" width="40" height="40" class="me-2">
+            <h4 class="mb-0">EcoHero</h4>
+        </div>
+        <div class="nav flex-column nav-pills">
+            <!-- 导航将由JavaScript动态生成 -->
+        </div>
+        <div class="language-selector">
+            <select id="languageSelect" onchange="changeLanguage(this.value)">
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="weather-alert" id="typhoonAlert">
+            <div class="wind-animation"></div>
+            <h3>台风警报：天鸽</h3>
+            <p class="mb-0">当前风力：10级 | 降雨量：120mm/h</p>
+            <div class="emergency-tips">
+                <h6><i class='bx bx-info-circle'></i> 紧急提示</h6>
+                <ul class="mb-0">
+                    <li>关闭所有窗户，确保门窗密封</li>
+                    <li>检查排水系统，预防积水</li>
+                    <li>准备应急照明设备</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="virtual-building" id="virtualBuilding">
+            <div class="level-indicator">
+                等级: <span id="buildingLevel">1</span>
+            </div>
+            <div class="pollution-indicator" id="pollutionLayer"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mission-card" id="typhoonMission" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">台风期间节能挑战</h5>
+                        <div class="timer" id="challengeTimer">02:00:00</div>
+                    </div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 60%" id="challengeProgress"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>当前进度：<span id="progressValue">60</span>%</span>
+                        <span class="reward-badge">奖励：500碳积分</span>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="mission-card">
+                                <h6><i class='bx bx-bulb'></i> 应急照明任务</h6>
+                                <p>使用LED应急照明，减少用电量</p>
+                                <button class="btn btn-primary btn-sm" onclick="completeMission('lighting')">完成任务</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mission-card">
+                                <h6><i class='bx bx-water'></i> 雨水回收任务</h6>
+                                <p>收集雨水用于日常用水</p>
+                                <button class="btn btn-primary btn-sm" onclick="completeMission('water')">完成任务</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">建筑升级</h5>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 25%" id="expProgress"></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>经验值: <span id="expValue">250</span>/1000</span>
+                            <button class="btn btn-primary" onclick="upgradeBuilding()">升级建筑</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="decoration-item" onclick="addDecoration('solarPanel')">
+                            <div class="d-flex align-items-center">
+                                <i class='bx bx-sun text-warning' style="font-size: 2rem;"></i>
+                                <div class="ms-3">
+                                    <h6 class="mb-1">太阳能板</h6>
+                                    <small class="text-muted">减少20%用电量</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="decoration-item" onclick="addDecoration('rainCollector')">
+                            <div class="d-flex align-items-center">
+                                <i class='bx bx-cloud-rain text-primary' style="font-size: 2rem;"></i>
+                                <div class="ms-3">
+                                    <h6 class="mb-1">雨水收集器</h6>
+                                    <small class="text-muted">减少15%用水量</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="achievement-card">
+                    <h6>建筑属性</h6>
+                    <div class="mb-3">
+                        <label>能源效率</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" id="efficiencyBar"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>环保指数</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%" id="ecoBar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <h6>成就系统</h6>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            节能先锋
+                            <span class="badge bg-primary rounded-pill">3/5</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            环保达人
+                            <span class="badge bg-primary rounded-pill">2/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentLang = initializePage('virtualHome');
+            
+            // 更新页面标题
+            document.title = `EcoHero - ${translations[currentLang].virtualHome}`;
+
+            // 初始化计时器
+            startTimer();
+            
+            // 随机触发台风事件（示例：20%概率）
+            if (Math.random() < 0.2) {
+                triggerTyphoonEvent();
+            }
+        });
+
+        function changeLanguage(lang) {
+            const currentLang = translations[lang];
+            updateNavigation(lang, 'virtualHome');
+            
+            // 更新页面标题
+            document.title = `EcoHero - ${currentLang.virtualHome}`;
+            
+            // 更新其他页面元素的翻译
+            // ... 添加其他元素的翻译更新逻辑
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // 触发台风事件
+        function triggerTyphoonEvent() {
+            document.getElementById('typhoonAlert').style.display = 'block';
+            document.getElementById('typhoonMission').style.display = 'block';
+            startTimer();
+        }
+
+        // 虚拟家园功能
+        let buildingLevel = 1;
+        let exp = 250;
+        let decorations = [];
+        let pollution = 0.2;
+
+        function upgradeBuilding() {
+            if (exp >= 1000) {
+                buildingLevel++;
+                exp -= 1000;
+                document.getElementById('buildingLevel').textContent = buildingLevel;
+                document.getElementById('expValue').textContent = exp;
+                document.getElementById('expProgress').style.width = (exp / 1000 * 100) + '%';
+                
+                updateBuildingEffects();
+            }
+        }
+
+        function addDecoration(type) {
+            const building = document.getElementById('virtualBuilding');
+            const decoration = document.createElement('div');
+            decoration.className = 'building-element';
+            
+            const top = 50 + Math.random() * 300;
+            const left = 30 + Math.random() * 300;
+            decoration.style.top = `${top}px`;
+            decoration.style.left = `${left}px`;
+
+            if (type === 'solarPanel') {
+                decoration.innerHTML = '<i class="bx bx-sun"></i> 太阳能板';
+                pollution -= 0.05;
+            } else if (type === 'rainCollector') {
+                decoration.innerHTML = '<i class="bx bx-cloud-rain"></i> 雨水收集器';
+                pollution -= 0.03;
+            }
+
+            document.getElementById('pollutionLayer').style.background = `rgba(0,0,0,${Math.max(0, pollution)})`;
+
+            building.appendChild(decoration);
+            decorations.push({type, top, left});
+
+            exp += 100;
+            document.getElementById('expValue').textContent = exp;
+            document.getElementById('expProgress').style.width = (exp / 1000 * 100) + '%';
+
+            updateBuildingEffects();
+        }
+
+        function updateBuildingEffects() {
+            const efficiency = Math.min(100, 50 + buildingLevel * 10 + decorations.length * 5);
+            document.getElementById('efficiencyBar').style.width = efficiency + '%';
+
+            const ecoIndex = Math.min(100, 40 + buildingLevel * 8 + decorations.length * 7);
+            document.getElementById('ecoBar').style.width = ecoIndex + '%';
+        }
+
+        // 台风任务功能
+        function startTimer() {
+            let time = 7200; // 2小时 = 7200秒
+            const timerElement = document.getElementById('challengeTimer');
+            
+            const timer = setInterval(() => {
+                time--;
+                const hours = Math.floor(time / 3600);
+                const minutes = Math.floor((time % 3600) / 60);
+                const seconds = time % 60;
+                
+                timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                
+                if (time <= 0) {
+                    clearInterval(timer);
+                    alert('台风节能挑战完成！奖励：500碳积分！');
+                }
+            }, 1000);
+        }
+
+        function completeMission(type) {
+            const progress = document.getElementById('progressValue');
+            const progressBar = document.getElementById('challengeProgress');
+            const currentProgress = parseInt(progress.textContent);
+            
+            if (currentProgress < 100) {
+                const newProgress = Math.min(100, currentProgress + 20);
+                progress.textContent = newProgress;
+                progressBar.style.width = `${newProgress}%`;
+                
+                if (newProgress === 100) {
+                    alert('恭喜完成所有任务！获得额外奖励！');
+                }
+            }
+        }
+
+        // 初始化效果
+        updateBuildingEffects();
+    </script>
+</body>
+</html> 
