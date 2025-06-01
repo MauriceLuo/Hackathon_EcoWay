@@ -30,9 +30,9 @@ const translations = {
         level: '等级',
         buildingUpgrade: '建筑升级',
         experience: '经验值',
-        solarPanel: '太阳能板',
+        // solarPanel: '太阳能板',
         solarPanelDesc: '减少20%用电量',
-        rainCollector: '雨水收集器',
+        // rainCollector: '雨水收集器',
         rainCollectorDesc: '减少15%用水量',
         buildingProps: '建筑属性',
         energyEfficiency: '能源效率',
@@ -75,7 +75,18 @@ const translations = {
         accountSettings: '账户设置',
         notifications: '通知设置',
         deviceManagement: '设备管理',
-        about: '关于我们'
+        about: '关于我们',
+        homeDecorations: {
+            ac: 'Basic AC',
+            lamp: 'Energy-saving Lamp',
+            // solarPanel: 'Solar Panel',
+            smartCurtain: 'Smart Curtain',
+            // rainCollector: 'Rain Collector',
+            greenWall: 'Green Wall'
+        },
+        taskMessages: {
+            // ... existing code ...
+        }
     },
     'zh-TW': {
         dashboard: '控制面板',
@@ -87,7 +98,7 @@ const translations = {
     'en': {
         dashboard: 'Dashboard',
         virtualHome: 'Virtual Home',
-        carbonCredits: 'Carbon Credits',
+        carbonCredits: 'EcoPoint',
         settings: 'Settings',
         family: 'Family & Social',
         familyMembers: 'Family Members',
@@ -114,9 +125,9 @@ const translations = {
         level: 'Level',
         buildingUpgrade: 'Building Upgrade',
         experience: 'Experience',
-        solarPanel: 'Solar Panel',
+        // solarPanel: 'Solar Panel',
         solarPanelDesc: 'Reduces electricity usage by 20%',
-        rainCollector: 'Rain Collector',
+        // rainCollector: 'Rain Collector',
         rainCollectorDesc: 'Reduces water usage by 15%',
         buildingProps: 'Building Attributes',
         energyEfficiency: 'Energy Efficiency',
@@ -136,7 +147,7 @@ const translations = {
         challenge: 'Energy Saving Challenge During Typhoon',
         progress: 'Current Progress',
         reward: 'Reward',
-        carbonPoints: 'Carbon Credits',
+        carbonPoints: 'EcoPoint',
         lightingTask: 'Emergency Lighting Task',
         lightingDesc: 'Use LED emergency lighting to reduce electricity consumption.',
         waterTask: 'Rainwater Harvesting Task',
@@ -159,7 +170,18 @@ const translations = {
         accountSettings: 'Account Settings',
         notifications: 'Notification Settings',
         deviceManagement: 'Device Management',
-        about: 'About Us'
+        about: 'About Us',
+        homeDecorations: {
+            ac: 'Basic AC',
+            lamp: 'Energy-saving Lamp',
+            // solarPanel: 'Solar Panel',
+            smartCurtain: 'Smart Curtain',
+            // rainCollector: 'Rain Collector',
+            greenWall: 'Green Wall'
+        },
+        taskMessages: {
+            // ... existing code ...
+        }
     },
     'ja': {
         dashboard: 'ダッシュボード',

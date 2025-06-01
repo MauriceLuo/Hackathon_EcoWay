@@ -324,25 +324,25 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="decoration-item" onclick="addDecoration('solarPanel')">
-                                <div class="d-flex align-items-center">
-                                    <i class='bx bx-sun text-warning' style="font-size: 2rem;"></i>
-                                    <div class="ms-3">
-                                        <h6 class="mb-1">Solar Panel</h6>
-                                        <small class="text-muted">Reduces electricity usage by 20%</small>
-                                    </div>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="../assets/img/elements/2.jpg" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Energy Saving Lamps <i class="bx bx-bulb"></i></h5>
+                                    <p class="card-text">
+                                        Reduces electricity usage by 10%.
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="decoration-item" onclick="addDecoration('rainCollector')">
-                                <div class="d-flex align-items-center">
-                                    <i class='bx bx-cloud-rain text-primary' style="font-size: 2rem;"></i>
-                                    <div class="ms-3">
-                                        <h6 class="mb-1">Rain Collector</h6>
-                                        <small class="text-muted">Reduces water usage by 15%</small>
-                                    </div>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="../assets/img/elements/12.jpg" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Smart Curtain <i class="bx bx-window-open"></i></h5>
+                                    <p class="card-text">
+                                        Reduces air conditioning usage by 15%.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -538,12 +538,16 @@
             decoration.style.top = `${top}px`;
             decoration.style.left = `${left}px`;
 
-            if (type === 'solarPanel') {
-                decoration.innerHTML = '<i class="bx bx-sun"></i> Solar Panel';
-                pollution -= 0.05;
-            } else if (type === 'rainCollector') {
-                decoration.innerHTML = '<i class="bx bx-cloud-rain"></i> Rain Collector';
-                pollution -= 0.03;
+            switch (type) {
+                case 'Basic AC':
+                    decoration.innerHTML = '<i class="bx bx-wind"></i> Basic AC';
+                    break;
+                case 'Energy-saving Lamp':
+                    decoration.innerHTML = '<i class="bx bx-bulb"></i> Energy-saving Lamp';
+                    break;
+                case 'Smart Curtain':
+                    decoration.innerHTML = '<i class="bx bx-window-open"></i> Smart Curtain';
+                    break;
             }
 
             document.getElementById('pollutionLayer').style.background = `rgba(0,0,0,${Math.max(0, pollution)})`;
@@ -581,7 +585,7 @@
                 
                 if (time <= 0) {
                     clearInterval(timer);
-                    alert('Typhoon energy saving challenge completed! Reward: 500 carbon credits!');
+                    alert('Typhoon energy saving challenge completed! Reward: 500 Eco Points!');
                 }
             }, 1000);
         }

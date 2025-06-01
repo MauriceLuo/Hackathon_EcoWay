@@ -137,7 +137,7 @@ const Home: React.FC = () => {
               title="Current Credits"
               value={energyData.carbonCredits}
               precision={0}
-              suffix="Credits"
+              suffix="Eco Points"
             />
           </Col>
           <Col span={12}>

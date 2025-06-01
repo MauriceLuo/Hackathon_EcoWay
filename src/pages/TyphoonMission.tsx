@@ -164,7 +164,7 @@ const TyphoonMission: React.FC = () => {
           {progress === 100 && (
             <Card title="Mission Rewards" style={{ marginTop: 16 }}>
               <p>🏆 Obtained "Typhoon Warrior" Medal</p>
-              <p>💰 Energy Saving Reward: 100 Carbon Credits</p>
+              <p>💰 Energy Saving Reward: 100 Eco Points</p>
               <p>🌟 Unlocked "Windproof Glass" Decoration</p>
               <Button type="primary" block>
                 Claim Rewards
